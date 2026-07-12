@@ -1,0 +1,189 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sign Up — GymOpsSaaS">
+	<main class="grid min-h-screen place-items-center px-4 py-12">
+		<div class="w-full max-w-[400px]">
+			<!-- Logo -->
+			<a href="/" class="mb-8 flex items-center justify-center gap-2" aria-label="GymOpsSaaS home">
+				<span class="grid h-8 w-8 place-items-center rounded-md bg-primary text-on-primary">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+						<path d="M3 12h2m14 0h2M6.5 7.5h2v9h-2zM15.5 7.5h2v9h-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						<path d="M8.5 12h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					</svg>
+				</span>
+				<span class="text-display-sm tracking-tight">GymOpsSaaS</span>
+			</a>
+
+			<div class="rounded-lg border border-hairline bg-canvas p-6 elev-2 sm:p-8">
+				<h1 class="text-display-md text-ink">Create your account</h1>
+				<p class="mt-1 text-body-sm text-body">Start running your gym in minutes.</p>
+
+				<form id="signup-form" class="mt-6 flex flex-col gap-4" method="post" action="#">
+					<!-- Role toggle: decides which signup endpoint we call -->
+					<div class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">I'm signing up as</span>
+						<div class="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Account type">
+							<label class="flex cursor-pointer items-center justify-center rounded-sm border border-hairline px-3 py-2 text-body-sm has-[:checked]:border-ink has-[:checked]:bg-canvas-soft-2">
+								<input type="radio" name="role" value="member" class="sr-only" checked />
+								Gym member
+							</label>
+							<label class="flex cursor-pointer items-center justify-center rounded-sm border border-hairline px-3 py-2 text-body-sm has-[:checked]:border-ink has-[:checked]:bg-canvas-soft-2">
+								<input type="radio" name="role" value="owner" class="sr-only" />
+								Gym owner
+							</label>
+						</div>
+					</div>
+
+					<label class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Gym</span>
+						<input
+							type="text"
+							name="gym_slug"
+							autocomplete="organization"
+							required
+							pattern="[a-z0-9\-]+"
+							placeholder="iron-house (lowercase, dashes)"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+						<span id="slug-hint" class="text-caption text-mute">The short name members use to log in.</span>
+					</label>
+
+					<!-- Owner-only: the human-readable gym name for the new tenant -->
+					<label id="gym-name-field" class="hidden flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Gym name</span>
+						<input
+							type="text"
+							name="gym_name"
+							placeholder="Iron House Fitness"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+					</label>
+
+					<label class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Full name</span>
+						<input
+							type="text"
+							name="full_name"
+							autocomplete="name"
+							required
+							placeholder="Alex Carter"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+					</label>
+
+					<label class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Email</span>
+						<input
+							type="email"
+							name="email"
+							autocomplete="email"
+							required
+							placeholder="you@gym.com"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+					</label>
+
+					<label class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Password</span>
+						<input
+							type="password"
+							name="password"
+							autocomplete="new-password"
+							required
+							minlength="8"
+							placeholder="At least 8 characters"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+					</label>
+
+					<p id="signup-error" role="alert" class="hidden rounded-sm bg-error-soft px-3 py-2 text-body-sm text-error-deep"></p>
+
+					<button
+						type="submit"
+						id="signup-submit"
+						class="mt-2 flex h-10 items-center justify-center rounded-sm bg-primary px-4 text-body-sm font-medium text-on-primary transition-opacity hover:opacity-90 disabled:opacity-60"
+					>
+						Create account
+					</button>
+				</form>
+			</div>
+
+			<p class="mt-6 text-center text-body-sm text-body">
+				Already have an account?
+				<a href="/login" class="font-medium text-link hover:text-link-deep">Log in</a>
+			</p>
+		</div>
+	</main>
+
+	<script>
+		import { apiPost, storeSession, portalPath, type TokenResponse } from '../lib/api';
+
+		const form = document.getElementById('signup-form') as HTMLFormElement;
+		const errorBox = document.getElementById('signup-error') as HTMLParagraphElement;
+		const submit = document.getElementById('signup-submit') as HTMLButtonElement;
+		const gymNameField = document.getElementById('gym-name-field') as HTMLLabelElement;
+		const gymNameInput = gymNameField.querySelector('input') as HTMLInputElement;
+		const slugHint = document.getElementById('slug-hint') as HTMLSpanElement;
+
+		function currentRole(): 'owner' | 'member' {
+			const checked = form.querySelector<HTMLInputElement>('input[name="role"]:checked');
+			return (checked?.value as 'owner' | 'member') ?? 'member';
+		}
+
+		// Show the gym-name field only for owners (who create a new gym). Members
+		// join an existing gym, so they only need its slug.
+		function syncRoleUI() {
+			const owner = currentRole() === 'owner';
+			gymNameField.classList.toggle('hidden', !owner);
+			gymNameField.classList.toggle('flex', owner);
+			gymNameInput.required = owner;
+			slugHint.textContent = owner
+				? 'Pick a short URL name for your gym, e.g. iron-house.'
+				: "Your gym's short name — ask staff if you're unsure.";
+		}
+
+		form.querySelectorAll('input[name="role"]').forEach((el) =>
+			el.addEventListener('change', syncRoleUI),
+		);
+		syncRoleUI();
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			errorBox.classList.add('hidden');
+			submit.disabled = true;
+			submit.textContent = 'Creating…';
+
+			const data = new FormData(form);
+			const role = currentRole();
+			const common = {
+				gym_slug: String(data.get('gym_slug') ?? '').trim(),
+				full_name: String(data.get('full_name') ?? '').trim(),
+				email: String(data.get('email') ?? '').trim(),
+				password: String(data.get('password') ?? ''),
+			};
+
+			try {
+				let res: TokenResponse;
+				if (role === 'owner') {
+					res = await apiPost<TokenResponse>('/api/auth/signup/owner', {
+						...common,
+						gym_name: String(data.get('gym_name') ?? '').trim(),
+						plan_code: 'starter',
+					});
+				} else {
+					res = await apiPost<TokenResponse>('/api/auth/signup/member', common);
+				}
+				storeSession(res);
+				window.location.href = portalPath(res.portal);
+			} catch (err) {
+				errorBox.textContent =
+					err instanceof Error ? err.message : 'Sign up failed. Please try again.';
+				errorBox.classList.remove('hidden');
+				submit.disabled = false;
+				submit.textContent = 'Create account';
+			}
+		});
+	</script>
+</Layout>

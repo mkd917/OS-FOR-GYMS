@@ -1,0 +1,120 @@
+---
+const navLinks = [
+	{ label: 'Platform', href: '#platform' },
+	{ label: 'Solutions', href: '#solutions' },
+	{ label: 'Smart Access', href: '#access' },
+	{ label: 'Member App', href: '#member' },
+	{ label: 'Compare', href: '#compare' },
+	{ label: 'Pricing', href: '#pricing' },
+	{ label: 'Docs', href: '#docs' },
+];
+---
+
+<header
+	class="sticky top-0 z-50 h-16 border-b border-hairline bg-canvas/80 backdrop-blur-md"
+>
+	<nav
+		class="mx-auto flex h-full max-w-[1400px] items-center justify-between gap-6 px-4 sm:px-6"
+		aria-label="Primary"
+	>
+		<!-- Logo -->
+		<a href="/" class="flex items-center gap-2 shrink-0" aria-label="GymOpsSaaS home">
+			<span
+				class="grid h-7 w-7 place-items-center rounded-md bg-primary text-on-primary"
+			>
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M3 12h2m14 0h2M6.5 7.5h2v9h-2zM15.5 7.5h2v9h-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					<path d="M8.5 12h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+				</svg>
+			</span>
+			<span class="text-display-sm tracking-tight">GymOpsSaaS</span>
+		</a>
+
+		<!-- Center links (desktop) -->
+		<ul class="hidden items-center gap-1 md:flex">
+			{
+				navLinks.map((link) => (
+					<li>
+						<a
+							href={link.href}
+							class="rounded-full px-3 py-2 text-body-sm text-body transition-colors hover:bg-canvas-soft-2 hover:text-ink"
+						>
+							{link.label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<!-- Right cluster -->
+		<div class="flex items-center gap-2">
+			<button
+				type="button"
+				class="hidden h-7 items-center gap-1.5 rounded-sm border border-hairline bg-canvas px-2 text-body-sm font-medium text-ink transition-colors hover:bg-canvas-soft sm:flex"
+			>
+				<svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M12 3l1.9 5.6L19.5 9l-4.3 3.6 1.5 5.7L12 15.2 7.3 18.3l1.5-5.7L4.5 9l5.6-.4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+				</svg>
+				Ask AI
+			</button>
+			<a
+				href="/login"
+				class="hidden h-7 items-center rounded-sm bg-canvas px-2 text-body-sm font-medium text-ink transition-colors hover:bg-canvas-soft sm:flex"
+				>Log In</a
+			>
+			<a
+				href="/signup"
+				class="flex h-7 items-center rounded-sm bg-primary px-3 text-body-sm font-medium text-on-primary transition-opacity hover:opacity-90"
+				>Sign Up</a
+			>
+
+			<!-- Mobile menu toggle -->
+			<button
+				type="button"
+				id="nav-toggle"
+				class="grid h-9 w-9 place-items-center rounded-sm text-ink md:hidden"
+				aria-label="Open menu"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+			>
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+				</svg>
+			</button>
+		</div>
+	</nav>
+
+	<!-- Mobile menu -->
+	<div
+		id="mobile-menu"
+		class="hidden border-b border-hairline bg-canvas px-4 py-3 md:hidden"
+	>
+		<ul class="flex flex-col gap-1">
+			{
+				navLinks.map((link) => (
+					<li>
+						<a
+							href={link.href}
+							class="block rounded-sm px-3 py-2 text-body-md text-body hover:bg-canvas-soft hover:text-ink"
+						>
+							{link.label}
+						</a>
+					</li>
+				))
+			}
+			<li class="mt-2 flex gap-2">
+				<a href="/login" class="flex-1 rounded-sm border border-hairline px-3 py-2 text-center text-body-sm font-medium">Log In</a>
+				<a href="/signup" class="flex-1 rounded-sm bg-primary px-3 py-2 text-center text-body-sm font-medium text-on-primary">Sign Up</a>
+			</li>
+		</ul>
+	</div>
+</header>
+
+<script>
+	const toggle = document.getElementById('nav-toggle');
+	const menu = document.getElementById('mobile-menu');
+	toggle?.addEventListener('click', () => {
+		const open = menu?.classList.toggle('hidden');
+		toggle.setAttribute('aria-expanded', String(open === false));
+	});
+</script>

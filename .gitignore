@@ -1,0 +1,66 @@
+# Python
+backend/.venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Node / Astro (frontend has its own .gitignore too)
+node_modules/
+dist/
+.astro/
+
+# Frontend is an independently-versioned git repo
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
+
+# Local AI development tooling
+.agents/
+.claude/
+.kiro/
+skills-lock.json
+
+# Local development tooling
+.agents/
+.claude/
+.kiro/
+skills-lock.json
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Frontend generated files
+node_modules/
+dist/
+.astro/
+
+# Logs and temporary files
+*.log
+project-files.txt
+
+# Editor files
+.vscode/

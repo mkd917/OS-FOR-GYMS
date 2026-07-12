@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Log In — GymOpsSaaS">
+	<main class="grid min-h-screen place-items-center px-4 py-12">
+		<div class="w-full max-w-[400px]">
+			<!-- Logo -->
+			<a href="/" class="mb-8 flex items-center justify-center gap-2" aria-label="GymOpsSaaS home">
+				<span class="grid h-8 w-8 place-items-center rounded-md bg-primary text-on-primary">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+						<path d="M3 12h2m14 0h2M6.5 7.5h2v9h-2zM15.5 7.5h2v9h-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						<path d="M8.5 12h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					</svg>
+				</span>
+				<span class="text-display-sm tracking-tight">GymOpsSaaS</span>
+			</a>
+
+			<div class="rounded-lg border border-hairline bg-canvas p-6 elev-2 sm:p-8">
+				<h1 class="text-display-md text-ink">Log in</h1>
+				<p class="mt-1 text-body-sm text-body">Welcome back. Enter your details to continue.</p>
+
+				<form id="login-form" class="mt-6 flex flex-col gap-4" method="post" action="#">
+					<label class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Gym</span>
+						<input
+							type="text"
+							name="gym_slug"
+							autocomplete="organization"
+							required
+							pattern="[a-z0-9\-]+"
+							placeholder="your-gym (lowercase, e.g. iron-house)"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+						<span class="text-caption text-mute">The gym's short name. Same email can exist at different gyms, so we need this.</span>
+					</label>
+
+					<label class="flex flex-col gap-1.5">
+						<span class="text-body-sm font-medium text-ink">Email</span>
+						<input
+							type="email"
+							name="email"
+							autocomplete="email"
+							required
+							placeholder="you@gym.com"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+					</label>
+
+					<label class="flex flex-col gap-1.5">
+						<span class="flex items-center justify-between text-body-sm font-medium text-ink">
+							Password
+							<a href="#reset" class="text-body-sm font-normal text-link hover:text-link-deep">Forgot?</a>
+						</span>
+						<input
+							type="password"
+							name="password"
+							autocomplete="current-password"
+							required
+							placeholder="••••••••"
+							class="h-10 rounded-sm border border-hairline bg-canvas px-3 text-body-sm text-ink outline-none transition-colors placeholder:text-mute focus:border-hairline-strong"
+						/>
+					</label>
+
+					<p id="login-error" role="alert" class="hidden rounded-sm bg-error-soft px-3 py-2 text-body-sm text-error-deep"></p>
+
+					<button
+						type="submit"
+						id="login-submit"
+						class="mt-2 flex h-10 items-center justify-center rounded-sm bg-primary px-4 text-body-sm font-medium text-on-primary transition-opacity hover:opacity-90 disabled:opacity-60"
+					>
+						Log in
+					</button>
+				</form>
+			</div>
+
+			<p class="mt-6 text-center text-body-sm text-body">
+				New to GymOpsSaaS?
+				<a href="/signup" class="font-medium text-link hover:text-link-deep">Create an account</a>
+			</p>
+		</div>
+	</main>
+
+	<script>
+		import { apiPost, storeSession, portalPath, type TokenResponse } from '../lib/api';
+
+		const form = document.getElementById('login-form') as HTMLFormElement;
+		const errorBox = document.getElementById('login-error') as HTMLParagraphElement;
+		const submit = document.getElementById('login-submit') as HTMLButtonElement;
+
+		form?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			errorBox.classList.add('hidden');
+			submit.disabled = true;
+			submit.textContent = 'Logging in…';
+
+			const data = new FormData(form);
+			try {
+				const res = await apiPost<TokenResponse>('/api/auth/login', {
+					gym_slug: String(data.get('gym_slug') ?? '').trim(),
+					email: String(data.get('email') ?? '').trim(),
+					password: String(data.get('password') ?? ''),
+				});
+				storeSession(res);
+				// Route to the portal the backend told us this account belongs to.
+				window.location.href = portalPath(res.portal);
+			} catch (err) {
+				errorBox.textContent =
+					err instanceof Error ? err.message : 'Login failed. Please try again.';
+				errorBox.classList.remove('hidden');
+				submit.disabled = false;
+				submit.textContent = 'Log in';
+			}
+		});
+	</script>
+</Layout>

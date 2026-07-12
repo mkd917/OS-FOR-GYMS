@@ -1,0 +1,81 @@
+---
+const tiers = [
+	{
+		name: 'Starter',
+		price: '$0',
+		cadence: '/mo',
+		blurb: 'For a single studio finding its feet.',
+		features: ['Up to 150 members', '1 access door', 'Member app + PR tracking', 'Email support'],
+		cta: 'Start free',
+		href: '/signup',
+		featured: false,
+	},
+	{
+		name: 'Growth',
+		price: '$79',
+		cadence: '/mo',
+		blurb: 'For busy gyms running 24/7 access.',
+		features: ['Unlimited members', 'Up to 8 access doors', 'Wearable sync (Apple / Google)', 'Billing & dunning', 'Priority support'],
+		cta: 'Start 14-day trial',
+		href: '/signup',
+		featured: true,
+	},
+	{
+		name: 'Chain',
+		price: 'Custom',
+		cadence: '',
+		blurb: 'For franchises and multi-location brands.',
+		features: ['Multi-location rollups', 'Unlimited doors & devices', 'SSO & audit logs', 'SLA + dedicated CSM'],
+		cta: 'Talk to sales',
+		href: '/contact',
+		featured: false,
+	},
+];
+---
+
+<section id="pricing" class="border-b border-hairline bg-canvas-soft">
+	<div class="mx-auto max-w-[1400px] px-4 py-24 sm:px-6">
+		<div class="mx-auto max-w-2xl text-center">
+			<p class="font-mono text-caption uppercase tracking-wide text-link">Pricing</p>
+			<h2 class="mt-3 text-display-lg text-ink">Priced for every gym.</h2>
+			<p class="mt-4 text-body-lg text-body">
+				No biometric hardware to buy. No per-reader license. Start free, scale when you do.
+			</p>
+		</div>
+
+		<div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
+			{
+				tiers.map((t) => (
+					<article
+						class={`flex flex-col rounded-lg p-8 ${t.featured ? 'bg-primary text-on-primary elev-4' : 'bg-canvas text-ink elev-1'}`}
+					>
+						<h3 class="text-display-md">{t.name}</h3>
+						<p class={`mt-1 text-body-sm ${t.featured ? 'text-white/60' : 'text-mute'}`}>{t.blurb}</p>
+						<div class="mt-6 flex items-baseline gap-1">
+							<span class="text-display-xl">{t.price}</span>
+							<span class={`text-body-md ${t.featured ? 'text-white/60' : 'text-mute'}`}>{t.cadence}</span>
+						</div>
+						<a
+							href={t.href}
+							class={`mt-6 flex h-11 items-center justify-center rounded-pill px-5 text-body-md font-medium transition-opacity hover:opacity-90 ${
+								t.featured ? 'bg-canvas text-ink' : 'bg-primary text-on-primary'
+							}`}
+						>
+							{t.cta}
+						</a>
+						<ul class={`mt-8 flex flex-col gap-3 border-t pt-6 ${t.featured ? 'border-white/15' : 'border-hairline'}`}>
+							{t.features.map((f) => (
+								<li class="flex items-start gap-2 text-body-sm">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class={`mt-0.5 shrink-0 ${t.featured ? 'text-cyan' : 'text-link'}`}>
+										<path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+									<span class={t.featured ? 'text-white/85' : 'text-body'}>{f}</span>
+								</li>
+							))}
+						</ul>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>

@@ -1,0 +1,196 @@
+@import 'tailwindcss';
+
+/* ─────────────────────────────────────────────────────────────
+   GymOpsSaaS — design tokens (Vercel-inspired, per DESIGN.md)
+   Tailwind v4 @theme: every token below becomes a utility class
+   (e.g. --color-ink → text-ink/bg-ink, --text-display-xl → text-display-xl)
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  /* Brand & ink */
+  --color-primary: #171717;
+  --color-on-primary: #ffffff;
+  --color-ink: #171717;
+  --color-body: #4d4d4d;
+  --color-mute: #767676;
+
+  /* Hairlines */
+  --color-hairline: #ebebeb;
+  --color-hairline-strong: #a1a1a1;
+
+  /* Surfaces */
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #fafafa;
+  --color-canvas-soft-2: #f5f5f5;
+
+  /* Links / semantic */
+  --color-link: #0070f3;
+  --color-link-deep: #0761d1;
+  --color-link-bg-soft: #d3e5ff;
+  --color-success: #0070f3;
+  --color-error: #ee0000;
+  --color-error-soft: #f7d4d6;
+  --color-error-deep: #c50000;
+  --color-warning: #f5a623;
+  --color-warning-soft: #ffefcf;
+  --color-warning-deep: #ab570a;
+
+  /* Accents (used only inside the mesh gradient) */
+  --color-violet: #7928ca;
+  --color-cyan: #50e3c2;
+  --color-highlight-pink: #ff0080;
+  --color-highlight-magenta: #eb367f;
+
+  /* Gradient stops */
+  --color-grad-develop-start: #007cf0;
+  --color-grad-develop-end: #00dfd8;
+  --color-grad-preview-start: #7928ca;
+  --color-grad-preview-end: #ff0080;
+  --color-grad-ship-start: #ff4d4d;
+  --color-grad-ship-end: #f9cb28;
+
+  /* Typography — font families */
+  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, monospace;
+
+  /* Typography — type scale (size / line-height / tracking) */
+  --text-display-xl: 48px;
+  --text-display-xl--line-height: 48px;
+  --text-display-xl--letter-spacing: -2.4px;
+  --text-display-xl--font-weight: 600;
+
+  --text-display-lg: 32px;
+  --text-display-lg--line-height: 40px;
+  --text-display-lg--letter-spacing: -1.28px;
+  --text-display-lg--font-weight: 600;
+
+  --text-display-md: 24px;
+  --text-display-md--line-height: 32px;
+  --text-display-md--letter-spacing: -0.96px;
+  --text-display-md--font-weight: 600;
+
+  --text-display-sm: 20px;
+  --text-display-sm--line-height: 28px;
+  --text-display-sm--letter-spacing: -0.6px;
+  --text-display-sm--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--letter-spacing: 0px;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--letter-spacing: 0px;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-body-sm--letter-spacing: -0.28px;
+
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption--letter-spacing: 0px;
+
+  --text-code: 13px;
+  --text-code--line-height: 20px;
+  --text-code--letter-spacing: 0px;
+
+  /* Radius scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill-sm: 64px;
+  --radius-pill: 100px;
+  --radius-full: 9999px;
+
+  /* Spacing additions (Tailwind already has 4px base; add named large steps) */
+  --spacing-section: 192px;
+
+  /* Container */
+  --breakpoint-wide: 1400px;
+}
+
+/* ── Base ── */
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas-soft);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #f2f2f2;
+}
+
+/* ── Brand mesh gradient (the only decorative chrome) ──
+   Used at hero scale only. A soft multi-stop radial mesh blending the
+   develop (blue→teal), preview (violet→pink), and ship (coral→amber) pairs. */
+.mesh-gradient {
+  background-color: var(--color-canvas);
+  background-image:
+    radial-gradient(at 18% 22%, var(--color-grad-develop-start) 0px, transparent 55%),
+    radial-gradient(at 78% 14%, var(--color-grad-develop-end) 0px, transparent 50%),
+    radial-gradient(at 88% 64%, var(--color-grad-preview-end) 0px, transparent 50%),
+    radial-gradient(at 42% 78%, var(--color-grad-preview-start) 0px, transparent 55%),
+    radial-gradient(at 8% 70%, var(--color-grad-ship-start) 0px, transparent 50%),
+    radial-gradient(at 60% 40%, var(--color-grad-ship-end) 0px, transparent 45%);
+  filter: saturate(1.05);
+}
+
+/* Text clipped to the brand gradient — for the one accent headline span */
+.text-gradient {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-grad-develop-start),
+    var(--color-grad-preview-start),
+    var(--color-grad-preview-end),
+    var(--color-grad-ship-start)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── Stacked elevation (per DESIGN.md elevation ladder) ── */
+.elev-1 {
+  box-shadow: 0 0 0 1px #00000014 inset;
+}
+.elev-2 {
+  box-shadow: 0 0 0 1px #00000014 inset, 0px 1px 1px #00000005, 0px 2px 2px #0000000a;
+}
+.elev-3 {
+  box-shadow: 0 0 0 1px #00000014 inset, 0px 2px 2px #0000000a, 0px 8px 8px -8px #0000000a;
+}
+.elev-4 {
+  box-shadow: 0 0 0 1px #00000014 inset, 0px 2px 2px #0000000a, 0px 8px 16px -4px #0000000a;
+}
+.elev-5 {
+  box-shadow: 0 0 0 1px #00000014 inset, 0px 1px 1px #00000005, 0px 8px 16px -4px #0000000a,
+    0px 24px 32px -8px #0000000f;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

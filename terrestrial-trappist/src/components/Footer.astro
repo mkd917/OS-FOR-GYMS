@@ -1,0 +1,64 @@
+---
+const columns = [
+	{
+		title: 'PRODUCT',
+		links: ['Owner dashboard', 'Smart access', 'Member app', 'Integrations', 'Pricing'],
+	},
+	{
+		title: 'DEVELOPERS',
+		links: ['API reference', 'ESP32 firmware', 'Webhooks', 'Status', 'Changelog'],
+	},
+	{
+		title: 'COMPANY',
+		links: ['About', 'Customers', 'Careers', 'Blog', 'Contact'],
+	},
+	{
+		title: 'LEGAL',
+		links: ['Privacy', 'Terms', 'Security', 'DPA', 'Cookies'],
+	},
+];
+---
+
+<footer class="bg-canvas">
+	<div class="mx-auto max-w-[1400px] px-4 py-16 sm:px-6">
+		<div class="grid grid-cols-2 gap-10 md:grid-cols-5">
+			<!-- Brand -->
+			<div class="col-span-2 md:col-span-1">
+				<a href="/" class="flex items-center gap-2" aria-label="GymOpsSaaS home">
+					<span class="grid h-7 w-7 place-items-center rounded-md bg-primary text-on-primary">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<path d="M3 12h2m14 0h2M6.5 7.5h2v9h-2zM15.5 7.5h2v9h-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							<path d="M8.5 12h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+					</span>
+					<span class="text-display-sm tracking-tight text-ink">GymOpsSaaS</span>
+				</a>
+				<p class="mt-3 max-w-xs text-body-sm text-mute">
+					The operating system for modern gyms.
+				</p>
+			</div>
+
+			{
+				columns.map((col) => (
+					<div>
+						<p class="font-mono text-caption uppercase tracking-wide text-mute">{col.title}</p>
+						<ul class="mt-4 flex flex-col gap-3">
+							{col.links.map((link) => (
+								<li>
+									<a href="#" class="text-body-sm text-body transition-colors hover:text-ink">
+										{link}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))
+			}
+		</div>
+
+		<div class="mt-14 flex flex-col items-start justify-between gap-4 border-t border-hairline pt-8 sm:flex-row sm:items-center">
+			<p class="text-body-sm text-mute">© 2026 GymOpsSaaS, Inc. All rights reserved.</p>
+			<p class="font-mono text-caption text-mute">gymopssaas.com</p>
+		</div>
+	</div>
+</footer>

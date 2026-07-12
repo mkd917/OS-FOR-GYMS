@@ -1,0 +1,55 @@
+---
+const rows = [
+	{ feature: 'Memberships', traditional: true, gymops: true },
+	{ feature: 'Billing & invoicing', traditional: true, gymops: true },
+	{ feature: 'Door access', traditional: false, gymops: true },
+	{ feature: 'WhatsApp automation', traditional: false, gymops: true },
+	{ feature: 'Member fitness app', traditional: false, gymops: true },
+	{ feature: 'Apple Health sync', traditional: false, gymops: true },
+];
+
+const Check = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const Cross = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+---
+
+<section id="compare" class="border-b border-hairline bg-canvas-soft-2">
+	<div class="mx-auto max-w-[1400px] px-4 py-24 sm:px-6">
+		<div class="mx-auto max-w-2xl text-center">
+			<p class="font-mono text-caption uppercase tracking-wide text-link">The difference</p>
+			<h2 class="mt-3 text-display-lg text-ink">GymOps vs traditional gym management.</h2>
+			<p class="mt-4 text-body-lg text-body">
+				Legacy software stops at memberships and billing. Everything that actually
+				retains members and frees up your front desk only ships with GymOps.
+			</p>
+		</div>
+
+		<div class="mx-auto mt-12 max-w-3xl overflow-hidden rounded-lg bg-canvas elev-3">
+			<table class="w-full border-collapse text-left">
+				<thead>
+					<tr class="border-b border-hairline">
+						<th scope="col" class="px-5 py-4 text-body-sm font-medium text-mute sm:px-6">Feature</th>
+						<th scope="col" class="px-5 py-4 text-center text-body-sm font-medium text-mute sm:px-6">Traditional</th>
+						<th scope="col" class="bg-primary px-5 py-4 text-center text-body-sm font-semibold text-on-primary sm:px-6">GymOps</th>
+					</tr>
+				</thead>
+				<tbody>
+					{
+						rows.map((r, i) => (
+							<tr class={i < rows.length - 1 ? 'border-b border-hairline' : ''}>
+								<th scope="row" class="px-5 py-4 text-body-md font-normal text-ink sm:px-6">{r.feature}</th>
+								<td class="px-5 py-4 sm:px-6">
+									<span class="sr-only">{r.traditional ? 'Yes' : 'No'}</span>
+									<span class={`flex justify-center ${r.traditional ? 'text-link' : 'text-hairline-strong'}`} set:html={r.traditional ? Check : Cross} />
+								</td>
+								<td class="bg-canvas-soft px-5 py-4 sm:px-6">
+									<span class="sr-only">{r.gymops ? 'Yes' : 'No'}</span>
+									<span class={`flex justify-center ${r.gymops ? 'text-link' : 'text-hairline-strong'}`} set:html={r.gymops ? Check : Cross} />
+								</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>

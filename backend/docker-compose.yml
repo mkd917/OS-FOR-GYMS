@@ -1,0 +1,44 @@
+# ── GymOpsSaaS local datastores ─────────────────────────────────────
+# Brings up the Postgres + Redis that the backend's config.py expects:
+#   database_url = postgresql://gymops:gymops@localhost:5432/gymops
+#   redis_url    = redis://localhost:6379/0
+#
+#   docker compose up -d        # start in background
+#   docker compose down         # stop (keeps data volume)
+#   docker compose down -v      # stop + wipe data (re-runs migration on next up)
+#
+# The SQL in ./migrations is applied automatically on FIRST boot only (when the
+# data volume is empty), via Postgres's docker-entrypoint-initdb.d hook.
+services:
+  postgres:
+    image: postgres:16
+    container_name: gymops-postgres
+    environment:
+      POSTGRES_USER: gymops
+      POSTGRES_PASSWORD: gymops
+      POSTGRES_DB: gymops
+    ports:
+      - "5432:5432"
+    volumes:
+      - gymops-pgdata:/var/lib/postgresql/data
+      # *.sql here runs in alphabetical order on first boot:
+      - ./migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gymops -d gymops"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7
+    container_name: gymops-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  gymops-pgdata:

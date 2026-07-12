@@ -1,0 +1,60 @@
+---
+const problems = [
+	{
+		title: 'Membership renewals',
+		body: 'No more chasing expiries in a spreadsheet. Renewals, dunning, and grace periods run on their own.',
+	},
+	{
+		title: 'Access control',
+		body: 'Lock the door to expired members automatically — no front-desk gatekeeping, no shared key cards.',
+	},
+	{
+		title: 'Attendance tracking',
+		body: 'Every check-in is logged the moment a member scans in. Live counts and history, zero manual entry.',
+	},
+	{
+		title: 'WhatsApp reminders',
+		body: 'Renewal nudges, class alerts, and win-back messages fire automatically over WhatsApp.',
+	},
+	{
+		title: 'Member engagement',
+		body: 'A social profile and progress feed keeps members opening the app between sessions.',
+	},
+	{
+		title: 'Fitness progress tracking',
+		body: 'PRs, weight, and body-fat logs sync from wearables so members see results — and stay.',
+	},
+];
+---
+
+<section id="solutions" class="border-b border-hairline bg-canvas">
+	<div class="mx-auto max-w-[1400px] px-4 py-24 sm:px-6">
+		<div class="max-w-2xl">
+			<p class="font-mono text-caption uppercase tracking-wide text-link">Problems we solve</p>
+			<h2 class="mt-3 text-display-lg text-ink">
+				Stop losing time on manual gym operations.
+			</h2>
+			<p class="mt-4 text-body-lg text-body">
+				The busywork that eats your week — renewals, door duty, follow-ups — runs itself.
+				You get the hours back to grow the gym.
+			</p>
+		</div>
+
+		<ul class="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-lg bg-hairline elev-1 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				problems.map((p) => (
+					<li class="flex flex-col bg-canvas p-6">
+						<div class="flex items-center gap-2">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="shrink-0 text-link">
+								<circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.12" />
+								<path d="M7.5 12.5l3 3 6-6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+							<h3 class="text-body-md font-medium text-ink">{p.title}</h3>
+						</div>
+						<p class="mt-2 text-body-sm text-body">{p.body}</p>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>

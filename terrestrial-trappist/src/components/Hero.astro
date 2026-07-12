@@ -1,0 +1,64 @@
+---
+---
+
+<section class="relative overflow-hidden border-b border-hairline bg-canvas">
+	<!-- Mesh gradient atmospheric backdrop (top half, low opacity) -->
+	<div
+		class="mesh-gradient pointer-events-none absolute inset-x-0 top-0 h-[480px] opacity-[0.18]"
+		aria-hidden="true"
+	>
+	</div>
+	<div
+		class="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-gradient-to-b from-transparent to-canvas"
+		aria-hidden="true"
+	>
+	</div>
+
+	<div class="relative mx-auto max-w-[1400px] px-4 py-24 sm:px-6 sm:py-32 lg:py-40">
+		<div class="mx-auto max-w-3xl text-center">
+			<!-- Announcement pill -->
+			<a
+				href="#access"
+				class="mb-6 inline-flex items-center gap-2 rounded-full bg-canvas-soft px-3 py-1 text-body-sm text-body elev-1 transition-colors hover:bg-canvas-soft-2"
+			>
+				<span class="font-mono text-caption uppercase tracking-wide text-link">New</span>
+				Keyless ESP32 door access — no fingerprint hardware
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+
+			<!-- Headline -->
+			<h1 class="text-balance text-[40px] font-semibold leading-[1.02] tracking-[-2px] text-ink sm:text-[56px] sm:tracking-[-2.8px]">
+				The operating system for
+				<span class="text-gradient">modern gyms.</span>
+			</h1>
+
+			<!-- Lead -->
+			<p class="mx-auto mt-6 max-w-2xl text-body-lg text-body">
+				Run billing, check-ins, and member engagement from one multi-tenant dashboard.
+				Pair dynamic-QR door access with a social-grade fitness app your members open every day.
+			</p>
+
+			<!-- CTA row -->
+			<div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+				<a
+					href="/signup"
+					class="flex h-12 w-full items-center justify-center rounded-pill bg-primary px-6 text-body-md font-medium text-on-primary transition-opacity hover:opacity-90 sm:w-auto"
+				>
+					Start your gym free
+				</a>
+				<a
+					href="#access"
+					class="flex h-12 w-full items-center justify-center rounded-pill bg-canvas px-6 text-body-md font-medium text-ink elev-1 transition-colors hover:bg-canvas-soft sm:w-auto"
+				>
+					See the hardware
+				</a>
+			</div>
+
+			<p class="mt-4 font-mono text-caption text-mute">
+				No card readers. No local Windows server. Deploys in an afternoon.
+			</p>
+		</div>
+	</div>
+</section>

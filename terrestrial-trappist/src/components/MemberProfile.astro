@@ -1,0 +1,103 @@
+---
+const prs = [
+	{ lift: 'Deadlift', value: '210', unit: 'kg', delta: '+5' },
+	{ lift: 'Squat', value: '180', unit: 'kg', delta: '+2.5' },
+	{ lift: 'Bench', value: '120', unit: 'kg', delta: '+5' },
+];
+---
+
+<section id="member" class="border-b border-hairline bg-canvas-soft">
+	<div class="mx-auto max-w-[1400px] px-4 py-24 sm:px-6">
+		<div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+			<!-- Profile mockup -->
+			<div class="order-2 lg:order-1">
+				<div class="mx-auto max-w-sm rounded-xl bg-canvas p-6 elev-4">
+					<!-- Header -->
+					<div class="flex items-center gap-4">
+						<div class="grid h-16 w-16 place-items-center rounded-full bg-primary text-display-sm text-on-primary">
+							AR
+						</div>
+						<div class="min-w-0">
+							<p class="text-display-sm text-ink">Aanya R.</p>
+							<span class="mt-1 inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-2 py-0.5 text-caption font-medium text-link-deep">
+								<span class="h-1.5 w-1.5 rounded-full bg-link"></span>
+								Premium · Active
+							</span>
+						</div>
+					</div>
+					<p class="mt-4 text-body-sm text-body">
+						Powerlifting, 4×/week. Chasing a 600kg total before winter. 🏋️
+					</p>
+
+					<!-- PR grid -->
+					<div class="mt-6 grid grid-cols-3 gap-2">
+						{
+							prs.map((pr) => (
+								<div class="rounded-md bg-canvas-soft p-3 text-center elev-1">
+									<p class="font-mono text-caption uppercase text-mute">{pr.lift}</p>
+									<p class="mt-1 text-display-sm text-ink">{pr.value}</p>
+									<p class="text-caption text-mute">{pr.unit}</p>
+									<p class="mt-1 text-caption font-medium text-link">{pr.delta}{pr.unit}</p>
+								</div>
+							))
+						}
+					</div>
+
+					<!-- Metric sparkline -->
+					<div class="mt-4 rounded-md border border-hairline p-4">
+						<div class="flex items-center justify-between">
+							<p class="text-body-sm text-body">Bodyweight</p>
+							<p class="text-body-sm font-medium text-ink">74.2 kg</p>
+						</div>
+						<svg viewBox="0 0 200 48" class="mt-3 w-full" fill="none" aria-hidden="true">
+							<polyline
+								points="0,38 25,34 50,36 75,28 100,30 125,22 150,24 175,16 200,18"
+								stroke="var(--color-link)"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+							<polyline
+								points="0,38 25,34 50,36 75,28 100,30 125,22 150,24 175,16 200,18 200,48 0,48"
+								fill="var(--color-link)"
+								fill-opacity="0.08"
+								stroke="none"
+							/>
+						</svg>
+					</div>
+				</div>
+			</div>
+
+			<!-- Copy -->
+			<div class="order-1 lg:order-2">
+				<p class="font-mono text-caption uppercase tracking-wide text-link">Member app</p>
+				<h2 class="mt-3 text-display-lg text-ink">
+					The reason they open the app daily.
+				</h2>
+				<p class="mt-4 text-body-lg text-body">
+					Accounting-software member portals get ignored. We wire a social-first fitness
+					profile straight into your gym's CRM — so engagement and retention live in the
+					same database as billing.
+				</p>
+				<ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+					<li class="rounded-md bg-canvas p-4 elev-1">
+						<p class="text-body-md font-medium text-ink">PR tracking</p>
+						<p class="mt-1 text-body-sm text-body">Deadlift, Squat, Bench with all-time bests and trend deltas.</p>
+					</li>
+					<li class="rounded-md bg-canvas p-4 elev-1">
+						<p class="text-body-md font-medium text-ink">Body metrics</p>
+						<p class="mt-1 text-body-sm text-body">Weight, height, body-fat timelines with clean charts.</p>
+					</li>
+					<li class="rounded-md bg-canvas p-4 elev-1">
+						<p class="text-body-md font-medium text-ink">Membership badge</p>
+						<p class="mt-1 text-body-sm text-body">Live tier + status pulled from the billing engine.</p>
+					</li>
+					<li class="rounded-md bg-canvas p-4 elev-1">
+						<p class="text-body-md font-medium text-ink">Wearable sync</p>
+						<p class="mt-1 text-body-sm text-body">Apple Health & Google Fit feed activity automatically.</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>

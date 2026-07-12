@@ -1,0 +1,60 @@
+---
+const flow = [
+	{ step: '01', title: 'Member app generates QR', detail: 'TOTP-derived token of gym_id + user_id + timestamp. Rotates every 15s — screenshots are useless.' },
+	{ step: '02', title: 'ESP32-CAM reads it', detail: 'A $8 camera module decodes the code at the door and POSTs it over WiFi. No card reader, no fingerprint pad.' },
+	{ step: '03', title: 'Backend verifies', detail: 'Checks token freshness, gym ownership, and active membership in a single hot-path query.' },
+	{ step: '04', title: 'Relay fires', detail: 'On access_granted: true the ESP32 drives a GPIO pin HIGH for 3s — unlocking the turnstile or maglock.' },
+];
+---
+
+<section id="access" class="border-b border-hairline bg-primary text-on-primary">
+	<div class="mx-auto max-w-[1400px] px-4 py-24 sm:px-6">
+		<div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+			<!-- Copy -->
+			<div>
+				<p class="font-mono text-caption uppercase tracking-wide text-cyan">Smart access</p>
+				<h2 class="mt-3 text-display-lg">
+					Keyless entry on $20 of hardware.
+				</h2>
+				<p class="mt-4 text-body-lg text-white/70">
+					Legacy gyms pay for ZKTeco fingerprint scanners and a local Windows server.
+					You don't. A dynamic QR code plus an ESP32-CAM gives you secure, shareable-proof
+					24/7 access that talks straight to the cloud.
+				</p>
+
+				<ul class="mt-8 flex flex-col gap-5">
+					{
+						flow.map((f) => (
+							<li class="flex gap-4">
+								<span class="font-mono text-code text-cyan">{f.step}</span>
+								<div>
+									<h3 class="text-body-md font-medium text-white">{f.title}</h3>
+									<p class="mt-1 text-body-sm text-white/60">{f.detail}</p>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+
+			<!-- Code mockup -->
+			<div class="rounded-md bg-[#0a0a0a] elev-5">
+				<div class="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+					<span class="h-3 w-3 rounded-full bg-error/80"></span>
+					<span class="h-3 w-3 rounded-full bg-warning/80"></span>
+					<span class="h-3 w-3 rounded-full bg-success/80"></span>
+					<span class="ml-2 font-mono text-caption text-white/40">POST /api/hardware/verify-access</span>
+				</div>
+				<pre class="overflow-x-auto p-5 font-mono text-code leading-6 text-white/90"><code><span class="text-white/40"># ESP32 sends decoded QR + device token</span>
+<span class="text-cyan">{`{`}</span>
+  <span class="text-highlight-pink">"token"</span>: <span class="text-warning">"eyJnIjoiZ3lt..."</span>,
+  <span class="text-highlight-pink">"device_key"</span>: <span class="text-warning">"hw_3f9a...c21"</span>
+<span class="text-cyan">{`}`}</span>
+
+<span class="text-white/40"># &lt; 50ms later</span>
+<span class="text-cyan">{`{`}</span> <span class="text-highlight-pink">"access_granted"</span>: <span class="text-[#3ecf8e]">true</span> <span class="text-cyan">{`}`}</span>
+<span class="text-white/40">→ GPIO 14 HIGH for 3000ms 🔓</span></code></pre>
+			</div>
+		</div>
+	</div>
+</section>

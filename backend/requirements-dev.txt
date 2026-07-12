@@ -1,0 +1,5 @@
+# ── Test/dev deps (install on top of requirements.txt) ──────────────
+#   .venv/Scripts/python -m pip install -r requirements-dev.txt
+pytest==8.3.4
+pytest-asyncio==0.25.2      # async test + fixture support
+httpx==0.28.1               # ASGITransport drives the app in-process (no uvicorn)
